@@ -3,10 +3,12 @@ name: Build and Push Docker Image
 on:
   release:
     types: [created]
+    tags: ^(dev|uat|prd)_\d+\.\d+\.\d+$
+
 
 jobs:
   build-and-push:
-    if: ${{ github.event.release.tag_name && (startsWith(github.event.release.tag_name, 'dev_') || startsWith(github.event.release.tag_name, 'uat_') || startsWith(github.event.release.tag_name, 'prd_')) && matches(github.event.release.tag_name, '^(dev|uat|prd)_\d+\.\d+\.\d+$') }}
+    if: ${{ github.event.release.tag_name && (startsWith(github.event.release.tag_name, 'dev_') || startsWith(github.event.release.tag_name, 'uat_') || startsWith(github.event.release.tag_name, 'prd_')) }}
     runs-on: ubuntu-latest
     
     steps:
