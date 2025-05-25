@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-push:
-    if: ${{ github.event.release.tag_name && contains(fromJSON('["dev", "uat", "prd"]'), split(github.event.release.tag_name, '_')[0]) && matches(github.event.release.tag_name, '^(dev|uat|prd)_\d+\.\d+\.\d+$') }}
+    if: ${{ github.event.release.tag_name && (startsWith(github.event.release.tag_name, 'dev_') || startsWith(github.event.release.tag_name, 'uat_') || startsWith(github.event.release.tag_name, 'prd_')) && matches(github.event.release.tag_name, '^(dev|uat|prd)_\d+\.\d+\.\d+$') }}
     runs-on: ubuntu-latest
     
     steps:
@@ -69,7 +69,6 @@ jobs:
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
-        environment: ${{ steps.env.outputs.name }}
         with:
           context: .
           push: true
