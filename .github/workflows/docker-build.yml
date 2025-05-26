@@ -59,13 +59,13 @@ jobs:
       
       - name: Convert GitHub actor to lowercase
         run: |
-          echo "actor=$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "repository_owner=$(echo $GITHUB_REPOSITORY_OWNER | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ env.actor }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Extract environment and version
@@ -76,7 +76,7 @@ jobs:
           VERSION=$(echo $TAG | cut -d'_' -f2)
           echo "env=$ENV" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "image_name=ghcr.io/${{ github.repository_owner }}/personal-webpage" >> $GITHUB_OUTPUT
+          echo "image_name=ghcr.io/${{ env.repository_owner }}/personal-webpage" >> $GITHUB_OUTPUT
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
