@@ -61,7 +61,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor.toLowerCase() }}
+          username: ${{ github.actor@L }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Extract environment and version
