@@ -27,32 +27,32 @@ jobs:
           ENV=$(echo $TAG | cut -d'_' -f1)
           echo "name=$ENV" >> $GITHUB_OUTPUT
       
-      - name: Create environment if not exists
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const env = '${{ steps.env.outputs.name }}';
-            try {
-              await github.rest.repos.getEnvironment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                environment_name: env
-              });
-              console.log(`Environment ${env} already exists`);
-            } catch (error) {
-              if (error.status === 404) {
-                console.log(`Creating environment ${env}`);
-                await github.rest.repos.createOrUpdateEnvironment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  environment_name: env,
-                  deployment_branch_policy: null
-                });
-              } else {
-                throw error;
-              }
-            }
+      # - name: Create environment if not exists
+      #   uses: actions/github-script@v7
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const env = '${{ steps.env.outputs.name }}';
+      #       try {
+      #         await github.rest.repos.getEnvironment({
+      #           owner: context.repo.owner,
+      #           repo: context.repo.repo,
+      #           environment_name: env
+      #         });
+      #         console.log(`Environment ${env} already exists`);
+      #       } catch (error) {
+      #         if (error.status === 404) {
+      #           console.log(`Creating environment ${env}`);
+      #           await github.rest.repos.createOrUpdateEnvironment({
+      #             owner: context.repo.owner,
+      #             repo: context.repo.repo,
+      #             environment_name: env,
+      #             deployment_branch_policy: null
+      #           });
+      #         } else {
+      #           throw error;
+      #         }
+      #       }
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
