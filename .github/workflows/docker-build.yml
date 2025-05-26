@@ -5,6 +5,11 @@ on:
     types: [created]
     tags: ^(dev|uat|prd)_\d+\.\d+\.\d+$
 
+permissions:
+  contents: write
+  packages: write
+  issues: write
+  pull-requests: write
 
 jobs:
   build-and-push:
